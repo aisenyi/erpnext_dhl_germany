@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include dhl_integration *.css
+recursive-include dhl_integration *.csv
+recursive-include dhl_integration *.html
+recursive-include dhl_integration *.ico
+recursive-include dhl_integration *.js
+recursive-include dhl_integration *.json
+recursive-include dhl_integration *.md
+recursive-include dhl_integration *.png
+recursive-include dhl_integration *.py
+recursive-include dhl_integration *.svg
+recursive-include dhl_integration *.txt
+recursive-exclude dhl_integration *.pyc
