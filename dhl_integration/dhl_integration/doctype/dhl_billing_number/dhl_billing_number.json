@@ -1,0 +1,41 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2023-10-30 16:06:59.408475",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "service",
+  "billing_number"
+ ],
+ "fields": [
+  {
+   "fieldname": "service",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Service",
+   "options": "DHLPaket\nDHLPaketInternational\nDHLPaketInternationalWithCustoms",
+   "reqd": 1
+  },
+  {
+   "fieldname": "billing_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Billing Number",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-10-30 16:09:46.073684",
+ "modified_by": "Administrator",
+ "module": "DHL Integration",
+ "name": "DHL Billing Number",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
