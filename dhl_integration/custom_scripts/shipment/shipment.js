@@ -9,15 +9,14 @@ frappe.ui.form.on('Shipment', {
 					},
 					"freeze": true,
 					"callback": function(ret){
-						frappe.msgprint("Shipment created successfully");
-						frm.reload_doc();
+						console.log(ret)
+						if(ret.message == "OK"){
+							frappe.msgprint("Shipment created successfully");
+							frm.reload_doc();
+						}
 					}
 				});
 			});
 		}
-	},
-	
-	fetch_shipping_rates: function(frm){
-		frappe.msgprint("It's here alright");
 	}
 });

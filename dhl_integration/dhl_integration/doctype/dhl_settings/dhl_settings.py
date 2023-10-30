@@ -74,7 +74,6 @@ class DHLUtils():
 			}
 			
 			data = json.dumps(data)
-			print(data)
 			response = requests.post(url, data=data, headers=header)
 			if response.status_code == 200:
 				content = response.json()
@@ -85,14 +84,11 @@ class DHLUtils():
 					frappe.db.set_value(shipment_doc.doctype, shipment_doc.name, "carrier_service", dhl_product, update_modified=False)
 					frappe.db.set_value(shipment_doc.doctype, shipment_doc.name, "shipment_id", item.get("shipmentNo"), update_modified=False)
 					self.save_file(shipment_doc, item.get("label").get("b64"))
-				
-				
-				print(response.text)
+					return "OK"
 			else:
-				print("Error")
 				self.post_error(response.json())
 		except Exception as e:
-			print(e)
+			frappe.throw(str(e))
 		
 	def get_shipper(self, shipment_doc):
 		ret_address = frappe._dict()
@@ -170,7 +166,7 @@ class DHLUtils():
 			"error": str(content)
 		})
 		log.save()
-		link_to_log = frappe.utils.get_link_to_form("Error Log", log.name, "See what happened.")
+		link_to_log = frappe.utils.get_link_to_form("Error Log", log.name, "Link to full error log")
 		if content.get("items"):
 			res = frappe.render_template("""
 						<table class="table table-bordered">
@@ -178,7 +174,6 @@ class DHLUtils():
 							<th>Property</th>
 							<th> Description </th>
 						</tr>
-						{{items}}
 						{% for item in items %}
 							{% for message in item.validationMessages %}
 								<tr>
@@ -189,11 +184,11 @@ class DHLUtils():
 						{% endfor %}
 						</table>
 						<br>
-						<a href='{{link_to_log}}'>Link to full error log</a>
+						{{link_to_log}}
 					""", {"items": content.get("items"), "link_to_log": link_to_log})
 		else:
 			res = f"Error while fetching order. Please view full error log {link_to_log}"
-		print(res)
+		frappe.msgprint(res)
 		
 	def save_file(self, shipment_doc, label_content):
 		file_path = get_files_path(f"{shipment_doc.name}_label.pdf", is_private=True)
