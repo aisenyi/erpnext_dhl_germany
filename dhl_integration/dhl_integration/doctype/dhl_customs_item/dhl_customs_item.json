@@ -1,0 +1,75 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2023-10-31 13:13:41.210047",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "item_description",
+  "packaged_quantity",
+  "country_of_origin",
+  "hs_code",
+  "item_value",
+  "value_currency",
+  "item_weight"
+ ],
+ "fields": [
+  {
+   "fieldname": "item_description",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Item Description",
+   "reqd": 1
+  },
+  {
+   "fieldname": "country_of_origin",
+   "fieldtype": "Link",
+   "label": "Country of Origin",
+   "options": "Country"
+  },
+  {
+   "fieldname": "hs_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "HS Code"
+  },
+  {
+   "fieldname": "packaged_quantity",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Packaged Quantity",
+   "reqd": 1
+  },
+  {
+   "fieldname": "item_value",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "item Value"
+  },
+  {
+   "fieldname": "item_weight",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Item weight (kg)"
+  },
+  {
+   "fieldname": "value_currency",
+   "fieldtype": "Link",
+   "label": "Value Currency",
+   "options": "Currency"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-10-31 13:36:47.857698",
+ "modified_by": "Administrator",
+ "module": "DHL Integration",
+ "name": "DHL Customs Item",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

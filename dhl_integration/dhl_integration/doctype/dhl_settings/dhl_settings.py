@@ -60,6 +60,9 @@ class DHLUtils():
 			"details": self.get_details(shipment_doc, 1)
 		})
 		
+		if shipment_doc.has_customs:
+			shipments["customs"] = self.get_customs(shipment_doc)
+		
 		try:
 			url = f"{self.base_url}/orders"
 			token = base64.b64encode(f"{self.username}:{self.password}".encode()).decode()
@@ -140,6 +143,7 @@ class DHLUtils():
 		if address.country != "Germany":
 			product = "DHLPaketInternational"
 		
+		
 		return ret_address, product
 		
 	def get_details(self, shipment_doc, idx):
@@ -157,6 +161,62 @@ class DHLUtils():
 			}
 		})
 		return details
+		
+	def get_customs(self, shipment_doc):
+		customs_info = {}
+		export_type = shipment_doc.export_type.replace(" ", "_").upper()
+		customs_info.update({
+			"exportType": export_type,
+			"exportDescription": shipment_doc.export_description
+		})
+		
+		if shipment_doc.invoice_no:
+			customs_info["invoiceNo"] = shipment_doc.invoice_no
+			
+		if shipment_doc.permit_no:
+			customs_info["permitNo"] = shipment_doc.permit_no
+			
+		if shipment_doc.attestation_no:
+			customs_info["attestationNo"] = shipment_doc.attestation_no
+			
+		if shipment_doc.has_electronic_export_notification:
+			customs_info["hasElectronicExportNotification"] = shipment_doc.has_electronic_export_notification
+			
+		if shipment_doc.office_of_origin:
+			customs_info["officeOfOrigin"] = shipment_doc.office_of_origin
+			
+		if shipment_doc.shipper_customs_ref:
+			customs_info["shipperCustomsRef"] = shipment_doc.shipper_customs_ref
+			
+		if shipment_doc.consignee_customs_ref:
+			customs_info["consigneeCustomsRef"] = shipment_doc.consignee_customs_ref
+			
+		if shipment_doc.customs_value:
+			customs_info["postalCharges"] = {
+						"currency": shipment_doc.customs_currency, 
+						"value": shipment_doc.customs_value
+					}
+		customs_info["items"] = self.get_customs_items(shipment_doc.customs_items)
+		return customs_info
+					
+	def get_customs_items(self, items):
+		ret = []
+		for row in items:
+			item = {
+				"itemDescription": row.item_description,
+				"packagedQuantity": row.packaged_quantity
+			}
+			
+			if row.country_of_origin:
+				item["countryOfOrigin"] = get_country_code(row.country_of_origin)
+				
+			if row.hs_code:
+				item["hsCode"] = row.hs_code
+			
+			item["itemValue"] = {"currency": row.value_currency, "value": row.item_value}
+			item["itemWeight"] = {"uom": "kg", "value": row.item_weight}
+			ret.append(item)
+		return ret
 		
 	def post_error(self, content):
 		res = ""
